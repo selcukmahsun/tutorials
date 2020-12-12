@@ -13,68 +13,78 @@ public class queensAttack {
     static int queensAttack(int n, int k, int r_q, int c_q, int[][] obstacles) {
         
 
+        int r1 = n - r_q;
+        int r2 = r_q - 1;
+        int q1 = n - c_q;
+        int q2 = c_q - 1;
+        int a = returnSize(r1, q1);
+        int b = returnSize(r1, q2);
+        int c = returnSize(r2, q2);
+        int d = returnSize(r2, q1);
 
-        int ust = n - c_q;
-        int alt = c_q - 1;
-        int sag = n - r_q;
-        int sol = r_q - 1;
-        int altEngel = 0;
-        int ustEngel = 0;
-        int solEngel = 0;
-        int sagEngel = 0;
-        int a_sagust_engel = 0;
-        int b_solust_engel = 0;
-        int c_solalt_engel = 0;
-        int d_sagalt_engel = 0;
+        int r1_engel = 0;
+        int r2_engel = 0;
+        int q1_engel = 0;
+        int q2_engel = 0;
+        int a_engel = 0;
+        int b_engel = 0;
+        int c_engel = 0;
+        int d_engel = 0;
 
-        int a_sagust = returnSize(sag, ust);
-        int b_solust = returnSize(sol, ust);
-        int c_solalt = returnSize(alt, sol);
-        int d_sagalt = returnSize(sag, alt);
-        int total_engelsiz = a_sagust + b_solust + c_solalt + d_sagalt + 2 * n - 2;
+        int total_engelsiz = a + b + c + d + 2 * n - 2;
 
         for (int i = 0; i < k; i++) {
+            if (obstacles[i][1] == 20002 && obstacles[i][0] == 20002) {
+                System.out.println("sutunlar esit r2_engel' girmeli");
+            }
+            if (obstacles[i][0] == 4) {
+                System.out.println("satirlar esit q2_engel' girmeli");
+            }
 
-            if (c_q == obstacles[i][0]) {
-                if (r_q > obstacles[i][1]) {
-                    solEngel = (solEngel < obstacles[i][1]) ? obstacles[i][1] : solEngel;
+            if (c_q == obstacles[i][1]) {
+                if (r_q > obstacles[i][0]) {
+                    r2_engel = (r2_engel < obstacles[i][0]) ? obstacles[i][0] : r2_engel;
+                    System.out.println(" r2_engel'e girdi" + r2_engel);
                 } else {
-                    sagEngel = (sagEngel < (n - obstacles[i][1] + 1)) ? (n - obstacles[i][1] + 1) : sagEngel;
+                    r1_engel = (r1_engel < (n - obstacles[i][0] + 1)) ? (n - obstacles[i][0] + 1) : r1_engel;
                 }
-            } else if (r_q == obstacles[i][1]) {
-                if (c_q > obstacles[i][0]) {
-                    altEngel = (altEngel < obstacles[i][0]) ? obstacles[i][0] : altEngel;
+            } else if (r_q == obstacles[i][0]) {
+                if (c_q > obstacles[i][1]) {
+                    q2_engel = (q2_engel < obstacles[i][1]) ? obstacles[i][1] : q2_engel;
+                    System.out.println(" q2_engel girdi" + q2_engel);
                 } else {
-                    ustEngel = (ustEngel < (n - obstacles[i][0] + 1)) ? (n - obstacles[i][0] + 1) : ustEngel;
+                    q1_engel = (q1_engel < (n - obstacles[i][1] + 1)) ? (n - obstacles[i][1] + 1) : q1_engel;
                 }
             } else if ((obstacles[i][0] + obstacles[i][1]) == (r_q + c_q)) {
 
-                if (c_q < obstacles[i][1]) {
-                    b_solust_engel = (b_solust_engel < returnSize(n - obstacles[i][0] + 1, obstacles[i][1]))
+                if (r_q < obstacles[i][0]) {
+                    b_engel = (b_engel < returnSize(n - obstacles[i][0] + 1, obstacles[i][1]))
                             ? returnSize(n - obstacles[i][0] + 1, obstacles[i][1])
-                            : b_solust_engel;
+                            : b_engel;
                 } else {
-                    d_sagalt_engel = (d_sagalt_engel < returnSize(obstacles[i][0], r_q - obstacles[i][1] + 1))
-                            ? returnSize(obstacles[i][0], r_q - obstacles[i][1] + 1)
-                            : d_sagalt_engel;
+                    d_engel = (d_engel < returnSize(obstacles[i][0], n - obstacles[i][1] + 1))
+                            ? returnSize(obstacles[i][0], n - obstacles[i][1] + 1)
+                            : d_engel;
                 }
-
             } else if ((obstacles[i][0] - obstacles[i][1]) == (r_q - c_q)) {
-                if (c_q < obstacles[i][0]) {
-                    a_sagust_engel = (a_sagust_engel < returnSize(n - obstacles[i][0] + 1, n - obstacles[i][1] + 1))
+                if (r_q < obstacles[i][0] && c_q < obstacles[i][1]) {
+                    a_engel = (a_engel < returnSize(n - obstacles[i][0] + 1, n - obstacles[i][1] + 1))
                             ? returnSize(n - obstacles[i][0] + 1, n - obstacles[i][1] + 1)
-                            : a_sagust_engel;
-                } else {
-                    c_solalt_engel = (c_solalt_engel < returnSize(obstacles[i][0], obstacles[i][1]))
+                            : a_engel;
+                } else if (r_q > obstacles[i][0] && c_q > obstacles[i][1]) {
+                    c_engel = (c_engel < returnSize(obstacles[i][0], obstacles[i][1]))
                             ? returnSize(obstacles[i][0], obstacles[i][1])
-                            : c_solalt_engel;
+                            : c_engel;
                 }
             }
 
         }
-        return total_engelsiz - (b_solust_engel + d_sagalt_engel + c_solalt_engel + a_sagust_engel + sagEngel
-                + solEngel + ustEngel + altEngel);
 
+    
+
+        return total_engelsiz - (+c_engel + a_engel + d_engel + b_engel + q1_engel + q2_engel + r1_engel + r2_engel);
+
+    
     
         
     
