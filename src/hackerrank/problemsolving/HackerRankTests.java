@@ -467,74 +467,7 @@ public class HackerRankTests {
 		return tallestLetter * word.length();
 	}
 
-	static int queensAttack(int n, int k, int r_q, int c_q, int[][] obstacles) {
-		int ust = n - r_q;
-		int alt = r_q - 1;
-		int sag = n - c_q;
-		int sol = c_q - 1;
-		int altEngel = 0;
-		int ustEngel = 0;
-		int solEngel = 0;
-		int sagEngel = 0;
-		int a_sagust_engel = 0;
-		int b_solust_engel = 0;
-		int c_solalt_engel = 0;
-		int d_sagalt_engel = 0;
 
-		int a_sagust = returnSize(sag, ust);
-		int b_solust = returnSize(sol, ust);
-		int c_solalt = returnSize(alt, sol);
-		int d_sagalt = returnSize(sag, alt);
-		int total_engelsiz = a_sagust + b_solust + c_solalt + d_sagalt + ust + alt + sag + sol;
-
-		for (int i = 0; i < k; i++) {
-
-			if (r_q == obstacles[i][0]) {
-				if (c_q > obstacles[i][1]) {
-					altEngel = (altEngel < obstacles[i][1]) ? obstacles[i][1] : altEngel;
-				} else if (c_q < obstacles[i][1]) {
-					ustEngel = (ustEngel < (n - obstacles[i][1])) ? (n - obstacles[i][1]) : ustEngel;
-				}
-			}
-
-			else if (c_q == obstacles[i][1]) {
-				if (c_q > obstacles[i][0]) {
-					solEngel = (solEngel < obstacles[i][0]) ? obstacles[i][0] : solEngel;
-				} else if (c_q < obstacles[i][1]) {
-					sagEngel = (sagEngel < (n - obstacles[i][0])) ? (n - obstacles[i][0]) : sagEngel;
-				}
-			} else if ((obstacles[i][0] + obstacles[i][1]) == (c_q + r_q)) {
-
-				if (c_q < obstacles[i][1]) {
-					a_sagust_engel = (a_sagust_engel < returnSize(n - obstacles[i][0] + 1, n - obstacles[i][0] + 1))
-							? returnSize(n - obstacles[i][0] + 1, n - obstacles[i][0] + 1)
-							: a_sagust_engel;
-				} else {
-					c_solalt_engel = (c_solalt_engel < returnSize(r_q, c_q)) ? returnSize(r_q, c_q) : c_solalt_engel;
-				}
-
-			} else if ((obstacles[i][0] - obstacles[i][1]) == (c_q - r_q)) {
-				if (c_q > obstacles[i][0]) {
-					d_sagalt_engel = (d_sagalt_engel < returnSize(obstacles[i][0], n - obstacles[i][1]))
-							? returnSize(obstacles[i][0], n - obstacles[i][1])
-							: d_sagalt_engel;
-				} else {
-					b_solust_engel = (b_solust_engel < returnSize(obstacles[i][0], n - obstacles[i][0]))
-							? returnSize(obstacles[i][0], n - obstacles[i][0])
-							: b_solust_engel;
-				}
-			}
-
-		}
-		return total_engelsiz - b_solust_engel - d_sagalt_engel - c_solalt_engel - a_sagust_engel - sagEngel - solEngel
-				- ustEngel - altEngel;
-
-	}
-
-	static int returnSize(int v1, int v2) {
-
-		return v1 < v2 ? v1 : v2;
-	}
 
 	public static int pickingNumbers(List<Integer> a) {
 
